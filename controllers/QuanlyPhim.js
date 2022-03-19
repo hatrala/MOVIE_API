@@ -1,8 +1,8 @@
 const { response } = require('express')
 const Phim = require('../models/Phim')
+const Banner = require('../models/Banner')
 
 // show list of movie
-
 const LayDanhSachPhim = (req, res, next) =>{
     Phim.find()
     .then(response=>{
@@ -34,6 +34,7 @@ const LayThongTinPhim =(req, res, next) =>{
     })
 }
 
+// lay thong tin phim dua tren ngay chieu
 const LayThongTinPhimTheoNgay =(req, res, next) =>{
     let Ngay = req.body.Ngay
     Phim.find(Ngay)
@@ -50,7 +51,7 @@ const LayThongTinPhimTheoNgay =(req, res, next) =>{
     })
 }
 
-// store movie
+// tao movie moi
 const ThemPhim =(req, res, next) =>{
     let phim = new Phim({
         TenPhim: req.body.TenPhim,
@@ -78,8 +79,7 @@ const ThemPhim =(req, res, next) =>{
     })
 }
 
-// update phim
-
+// update toan bo thong tin phim
 const update=(req, res, next) =>{
     let phimID = req.body.phimID
 
@@ -108,6 +108,8 @@ const update=(req, res, next) =>{
         })
     })
 }
+
+// update hinh cho phim
 const updateHinh=(req, res, next) =>{
     let phimID = req.body.phimID
 
@@ -127,6 +129,8 @@ const updateHinh=(req, res, next) =>{
         })
     })
 }
+
+// update trailer
 const updateTrailer=(req, res, next) =>{
     let phimID = req.body.phimID
 
@@ -148,7 +152,6 @@ const updateTrailer=(req, res, next) =>{
 }
 
 // delete employee
-
 const destroy = (req, res, next) =>{
     let phimID = req.body.phimID
     Phim.findByIdAndRemove(phimID)
@@ -164,6 +167,41 @@ const destroy = (req, res, next) =>{
     })
 }
 
+const LayDanhSachBanner = (req, res, next) =>{
+    Banner.find()
+    .then(response=>{
+        res.json({
+            response
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!'
+        })
+    })
+}
+
+const ThemBanner =(req, res, next) =>{
+    let banner = new Banner({
+        MaBanner: req.body.MaBanner,
+        MaPhim: req.body.MaPhim,
+        HinhAnh: req.body.HinhAnh
+    })
+    banner.save()
+    .then(response =>{
+        res.json({
+            message: 'Store banner susccessful'
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot store the banner'
+        })
+    })
+}
+
 module.exports = {
-    LayDanhSachPhim, LayThongTinPhim, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay
+    LayDanhSachPhim, LayThongTinPhim, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
+    LayDanhSachBanner, ThemBanner
 }
