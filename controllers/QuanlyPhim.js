@@ -17,6 +17,22 @@ const LayDanhSachPhim = (req, res, next) =>{
     })
 }
 
+const LayThongTinPhimBangTen =(req, res, next) =>{
+    let name = req.body.name
+    Phim.findById({TenPhim: name})
+    .then(response =>{
+        res.json({
+            response
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot show the movie'
+        })
+    })
+}
+
 // show single movie
 const LayThongTinPhim =(req, res, next) =>{
     let phimID = req.body.phimID
@@ -202,6 +218,6 @@ const ThemBanner =(req, res, next) =>{
 }
 
 module.exports = {
-    LayDanhSachPhim, LayThongTinPhim, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
+    LayDanhSachPhim, LayThongTinPhim, LayThongTinPhimBangTen, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
     LayDanhSachBanner, ThemBanner
 }
