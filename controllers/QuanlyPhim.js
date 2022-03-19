@@ -19,7 +19,7 @@ const LayDanhSachPhim = (req, res, next) =>{
 
 const LayThongTinPhimBangTen =(req, res, next) =>{
     let name = req.body.name
-    Phim.findById({TenPhim: name})
+    Phim.find({TenPhim: name})
     .then(response =>{
         res.json({
             response
