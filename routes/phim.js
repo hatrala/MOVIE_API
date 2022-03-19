@@ -5,6 +5,7 @@ const QuanlyPhim = require('../controllers/QuanlyPhim')
 
 router.get('/', QuanlyPhim.LayDanhSachPhim)
 router.post('/LayThongTinPhim', QuanlyPhim.LayThongTinPhim)
+router.post('/LayThongTinPhimBangTen', QuanlyPhim.LayThongTinPhimBangTen)
 router.post('/LayThongTinPhimTheoNgay', QuanlyPhim.LayThongTinPhimTheoNgay)
 router.post('/ThemPhim', QuanlyPhim.ThemPhim)
 router.post('/update', QuanlyPhim.update)
