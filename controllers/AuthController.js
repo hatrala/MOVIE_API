@@ -34,7 +34,7 @@ const login = (req,res,next)=>{
     var username = req.body.username
     var password = req.body.password
 
-    User.findOne({ email: username })
+    User.find({ email: username })
         .then(user => {
             if (user) {
                 bcrypt.compare(password, User.password, function (err, result) {
