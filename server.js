@@ -32,6 +32,6 @@ app.listen(PORT, () =>{
     console.log('Sever is running on port', {PORT})
 })
 app.use(cors(corsOptions)) // Use this after the variable declaration
-app.use('/api/Quanlyphim', phimRoute)
-app.use('/api/employee', EmployeeRoute)
-app.use('/api', AuthRoute)
+app.use('//api/Quanlyphim', phimRoute)
+app.use('//api/employee', EmployeeRoute)
+app.use('//api', AuthRoute)
