@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const res = require('express/lib/response')
+const { json } = require('express/lib/response')
 
 const register = (req,res,next) => {
     bcrypt.hash(req.body.password, 10, function(err, hashedPass){
@@ -44,7 +45,7 @@ const login = (req,res,next)=>{
                     })
                 }
                 if(result){
-                    let token = jwt.sign({name: user.name}, 'verySecretValue', {})
+                    let token = jwt.sign({name: user.name}, 'secretValue', {})
                     res.json({
                         message: 'login successful',
                         token
@@ -66,9 +67,6 @@ const login = (req,res,next)=>{
 
 
 }
-
-
-
 module.exports = {
     register, login
 }

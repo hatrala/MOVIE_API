@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const QuanlyPhim = require('../controllers/QuanlyPhim')
+const authenticate = require('../middlewave/authenticate')
 
-router.get('/', QuanlyPhim.LayDanhSachPhim)
+router.get('/', authenticate, QuanlyPhim.LayDanhSachPhim)
 router.post('/LayThongTinPhim', QuanlyPhim.LayThongTinPhim)
 router.post('/LayThongTinPhimBangTen', QuanlyPhim.LayThongTinPhim)
 router.post('/LayThongTinPhimTheoNgay', QuanlyPhim.LayThongTinPhimTheoNgay)
