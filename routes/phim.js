@@ -14,7 +14,7 @@ router.post('/updateHinh',authenticate, QuanlyPhim.updateHinh)
 router.post('/updateTrailer',authenticate, QuanlyPhim.updateHinh)
 router.post('/delete',authenticate, QuanlyPhim.destroy)
 // =========BANNER==========
-router.get('/LayDanhSachBanner', QuanlyPhim.LayDanhSachBanner)
+router.get('/LayDanhSachBanner',authenticate, QuanlyPhim.LayDanhSachBanner)
 router.post('/ThemBanner',authenticate, QuanlyPhim.ThemBanner)
 
 module.exports = router
