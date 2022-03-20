@@ -37,13 +37,13 @@ const login = (req,res,next)=>{
     User.findOne({ $or: [{ email: username }, { phone, username }] })
         .then(user => {
             if (user) {
-                bcrypt.compare(password, user.password, function (err, result) {
+                bcrypt.compare(password, User.password, function (err, result) {
                     if (err) {
                         res.json({
                             error: err
                         })
                         if (result) {
-                            let token = jwt.sign({ name: user.name }, 'verySecretValue', {})
+                            let token = jwt.sign({ name: User.name }, 'verySecretValue', {})
                             res.json({
                                 message: 'Login Successful',
                                 token
