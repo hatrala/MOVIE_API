@@ -16,6 +16,12 @@ db.once('open',()=>{
     console.log('Database Connection Established!')
 })
 const app = express()
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -25,7 +31,7 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () =>{
     console.log('Sever is running on port', {PORT})
 })
-
+app.use(cors(corsOptions)) // Use this after the variable declaration
 app.use('/api/Quanlyphim', phimRoute)
 app.use('/api/employee', EmployeeRoute)
 app.use('/api', AuthRoute)
