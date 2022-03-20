@@ -17,22 +17,6 @@ const LayDanhSachPhim = (req, res, next) =>{
     })
 }
 
-const LayThongTinPhimBangTen =(req, res, next) =>{
-    let name = req.body.name.trim()
-    Phim.find({TenPhim: name})
-    .then(response =>{
-        res.json({
-            response
-        })
-    })
-    .catch(error =>{
-        res.json({
-            message: 'An error occured!',
-            message: 'Cannot show the movie'
-        })
-    })
-}
-
 // show single movie
 const LayThongTinPhim =(req, res, next) =>{
     let phimID = req.body.phimID
@@ -50,10 +34,26 @@ const LayThongTinPhim =(req, res, next) =>{
     })
 }
 
+const LayThongTinPhimBangTen =(req, res, next) =>{
+    let name = req.body.name.trim()
+    Phim.find({tenPhim: name})
+    .then(response =>{
+        res.json({
+            response
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot show the movie'
+        })
+    })
+}
+
 // lay thong tin phim dua tren ngay chieu
 const LayThongTinPhimTheoNgay =(req, res, next) =>{
     let Ngay = req.body.Ngay
-    Phim.find(Ngay)
+    Phim.find({ngayKhoiChieu: Ngay})
     .then(response =>{
         res.json({
             response
@@ -70,16 +70,18 @@ const LayThongTinPhimTheoNgay =(req, res, next) =>{
 // tao movie moi
 const ThemPhim =(req, res, next) =>{
     let phim = new Phim({
-        TenPhim: req.body.TenPhim,
-        Mota: req.body.Mota,
-        Trailer: req.body.Trailer,
-        HinhAnh: req.body.HinhAnh,
-        BiDanh: req.body.BiDanh,
-        MaNhom: req.body.MaNhom,
-        NgayKhoiChieu: req.body.NgayKhoiChieu,
-        SapChieu: req.body.SapChieu,
-        DangChieu: req.body.DangChieu,
-        Hot: req.body.Hot
+        maPhim: req.body.maPhim,
+        tenPhim: req.body.tenPhim,
+        moTa: req.body.moTa,
+        trailer: req.body.trailer,
+        hinhAnh: req.body.hinhAnh,
+        biDanh: req.body.biDanh,
+        maNhom: req.body.maNhom,
+        ngayKhoiChieu: req.body.ngayKhoiChieu,
+        danhGia: req.body.danhGia,
+        sapChieu: req.body.sapChieu,
+        dangChieu: req.body.dangChieu,
+        hot: req.body.hot
     })
     phim.save()
     .then(response =>{
@@ -100,16 +102,18 @@ const update=(req, res, next) =>{
     let phimID = req.body.phimID
 
     let updateData ={
-        TenPhim: req.body.TenPhim,
-        Mota: req.body.Mota,
-        Trailer: req.body.Trailer,
-        HinhAnh: req.body.HinhAnh,
-        BiDanh: req.body.BiDanh,
-        MaNhom: req.body.MaNhom,
-        NgayKhoiChieu: req.body.NgayKhoiChieu,
-        SapChieu: req.body.SapChieu,
-        DangChieu: req.body.DangChieu,
-        Hot: req.body.Hot
+        maPhim: req.body.maPhim,
+        tenPhim: req.body.tenPhim,
+        moTa: req.body.moTa,
+        trailer: req.body.trailer,
+        hinhAnh: req.body.hinhAnh,
+        biDanh: req.body.biDanh,
+        maNhom: req.body.maNhom,
+        ngayKhoiChieu: req.body.ngayKhoiChieu,
+        danhGia: req.body.danhGia,
+        sapChieu: req.body.sapChieu,
+        dangChieu: req.body.dangChieu,
+        hot: req.body.Hot
     }
 
     Phim.findByIdAndUpdate(phimID, {$set: updateData})
@@ -130,7 +134,7 @@ const updateHinh=(req, res, next) =>{
     let phimID = req.body.phimID
 
     let updateData ={
-        HinhAnh: req.body.HinhAnh 
+        hinhAnh: req.body.hinhAnh 
     }
 
     Phim.findByIdAndUpdate(phimID, {$set: updateData})
@@ -151,7 +155,7 @@ const updateTrailer=(req, res, next) =>{
     let phimID = req.body.phimID
 
     let updateData ={
-        Trailer: req.body.Trailer
+        trailer: req.body.trailer
     }
 
     Phim.findByIdAndUpdate(phimID, {$set: updateData})
@@ -199,9 +203,9 @@ const LayDanhSachBanner = (req, res, next) =>{
 
 const ThemBanner =(req, res, next) =>{
     let banner = new Banner({
-        MaBanner: req.body.MaBanner,
-        MaPhim: req.body.MaPhim,
-        HinhAnh: req.body.HinhAnh
+        maBanner: req.body.maBanner,
+        maPhim: req.body.maPhim,
+        hinhAnh: req.body.hinhAnh
     })
     banner.save()
     .then(response =>{

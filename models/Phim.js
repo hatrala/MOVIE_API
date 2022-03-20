@@ -2,34 +2,43 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const phimSchema = new Schema({
-    TenPhim:{
+    maPhim:{
+        type: Number
+    },
+    tenPhim:{
         type: String
     },
-    BiDanh:{
+    biDanh:{
         type: String
     },
-    MoTa: {
+    moTa: {
         type: String
     },
-    Trailer: {
+    maNhom:{
         type: String
     },
-    HinhAnh: {
+    trailer: {
         type: String
     },
-    MaNhom:{
+    hinhAnh: {
         type: String
     },
-    NgayKhoiChieu:{
+    maNhom:{
+        type: String
+    },
+    ngayKhoiChieu:{
         type: Date
     },
-    SapChieu:{
+    danhGia:{
+        type: Number
+    },
+    sapChieu:{
         type: Boolean
     },
-    DangChieu:{
+    dangChieu:{
         type: Boolean
     },
-    Hot:{
+    hot:{
         type: Boolean
     }
 }, {timestamps: true})

@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const bannerSchema = new Schema({
-    MaBanner:{
+    maBanner:{
         type: Number
     },
-    MaPhim:{
+    maPhim:{
         type: Number
     },
-    HinhAnh: {
+    hinhAnh: {
         type: String
     }
 }, {timestamps: true})
