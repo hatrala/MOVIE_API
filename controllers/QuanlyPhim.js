@@ -191,9 +191,11 @@ const destroy = (req, res, next) =>{
 
 const LayDanhSachBanner = (req, res, next) =>{
     Banner.find()
-    .then(response=>{
+    .then(content=>{
         res.json({
-            response
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
         })
     })
     .catch(error =>{
