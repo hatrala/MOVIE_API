@@ -45,7 +45,7 @@ const login = (req,res,next)=>{
                     })
                 }
                 if(result){
-                    let token = jwt.sign({name: user.name}, 'abcdefg', {})
+                    let token = jwt.sign({name: username}, 'abcdefg', {})
                     res.json({
                         message: 'login successful',
                         token
