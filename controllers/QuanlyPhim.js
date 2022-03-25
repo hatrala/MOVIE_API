@@ -5,9 +5,11 @@ const Banner = require('../models/Banner')
 // show list of movie
 const LayDanhSachPhim = (req, res, next) =>{
     Phim.find()
-    .then(response=>{
+    .then(content=>{
         res.json({
-            response
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
         })
     })
     .catch(error =>{
