@@ -5,7 +5,7 @@ const Banner = require('../models/Banner')
 // show list of movie
 const LayDanhSachPhim = (req, res, next) =>{
     Phim.find()
-    .then(content=>{
+    .then(content =>{
         res.json({
             statusCode : "200",
             message: "Xử lý thành công!",
@@ -191,11 +191,9 @@ const destroy = (req, res, next) =>{
 
 const LayDanhSachBanner = (req, res, next) =>{
     Banner.find()
-    .then(content=>{
+    .then(response=>{
         res.json({
-            statusCode : "200",
-            message: "Xử lý thành công!",
-            content
+            response
         })
     })
     .catch(error =>{

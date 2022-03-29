@@ -12,10 +12,9 @@ const register = (req,res,next) => {
             })
         }
         let user = new User ({
-            name: req.body.name,
             email: req.body.email,
-            phone: req.body.phone,
-            password: hashedPass
+            password: hashedPass,
+            admin: req.body.admin
         })
         user.save()
         .then(user =>{
@@ -35,7 +34,7 @@ const login = (req,res,next)=>{
     var useremail = req.body.useremail
     var password = req.body.password
 
-    User.findOne({email: useremail})
+     User.findOne({email: useremail})
     .then(user =>{
         if(user){
             bcrypt.compare(password, user.password, function(err, result){
@@ -45,9 +44,11 @@ const login = (req,res,next)=>{
                     })
                 }
                 if(result){
-                    let token = jwt.sign({email: useremail}, 'abcdefg', {})
+                    const userid = user.id
+                    let token = jwt.sign({id: user.id, admin: user.admin}, 'abc', {})
                     res.json({
                         message: 'login successful',
+                        userid,
                         token
                     })
                 }else{
