@@ -195,7 +195,7 @@ const LayDanhSachBanner = (req, res, next) =>{
         res.json({
             statusCode : "200",
             message: "Xử lý thành công!",
-            conntent
+            content
         })
     })
     .catch(error =>{
