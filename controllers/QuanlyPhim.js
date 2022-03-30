@@ -23,9 +23,11 @@ const LayDanhSachPhim = (req, res, next) =>{
 const LayThongTinPhim =(req, res, next) =>{
     let phimID = req.body.phimID
     Phim.findById(phimID)
-    .then(response =>{
+    .then(content =>{
         res.json({
-            response
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
         })
     })
     .catch(error =>{
@@ -39,9 +41,11 @@ const LayThongTinPhim =(req, res, next) =>{
 const LayThongTinPhimBangTen =(req, res, next) =>{
     let name = req.body.name.trim()
     Phim.find({tenPhim: name})
-    .then(response =>{
+    .then(content =>{
         res.json({
-            response
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
         })
     })
     .catch(error =>{
@@ -56,9 +60,11 @@ const LayThongTinPhimBangTen =(req, res, next) =>{
 const LayThongTinPhimTheoNgay =(req, res, next) =>{
     let Ngay = req.body.Ngay
     Phim.find({ngayKhoiChieu: Ngay})
-    .then(response =>{
+    .then(content =>{
         res.json({
-            response
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
         })
     })
     .catch(error =>{
