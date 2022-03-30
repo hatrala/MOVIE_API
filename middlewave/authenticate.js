@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken')
 const router = require('../routes/auth')
 const { route } = require('../routes/auth')
-const Note = require('../models/Note')
 
 const authenticate = (req, res, next)=>{
     try{
