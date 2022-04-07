@@ -40,6 +40,9 @@ const phimSchema = new Schema({
     },
     hot:{
         type: Boolean
+    },
+    image:{
+        type: String
     }
 }, {timestamps: true})
 

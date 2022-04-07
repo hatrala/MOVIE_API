@@ -40,6 +40,7 @@ app.listen(PORT, () =>{
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 app.use('/api/Quanlyphim', phimRoute)
+app.use('/uploads', express.static('uploads'))
 app.use('/api/QuanLyRap', HeThongRapRoute)
 app.use('/api/employee', EmployeeRoute)
 app.use('/api', AuthRoute)

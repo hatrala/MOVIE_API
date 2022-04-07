@@ -1,6 +1,8 @@
 const { response } = require('express')
 const Phim = require('../models/Phim')
 const Banner = require('../models/Banner')
+const multer = require('multer')
+const upload = multer({dest: 'uploads/'})
 
 // show list of movie
 const LayDanhSachPhim = (req, res, next) =>{
@@ -91,6 +93,9 @@ const ThemPhim =(req, res, next) =>{
         dangChieu: req.body.dangChieu,
         hot: req.body.hot
     })
+    if(req.file){
+        phim.image = req.file.path
+    }
     phim.save()
     .then(response =>{
         res.json({
