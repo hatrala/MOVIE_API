@@ -1,8 +1,14 @@
 const { response } = require('express')
+const HeThongRap = require("../models/HeThongRap")
+const Rap = require("../models/Rap")
+const CumRap = require("../models/CumRap")
+const LichChieu = require("../models/LichChieu")
 const Phim = require('../models/Phim')
 const Banner = require('../models/Banner')
 const multer = require('multer')
 const upload = multer({dest: 'uploads/'})
+const imageMimeTypes = ['image/png', 'image/jpg'];
+
 
 // show list of movie
 const LayDanhSachPhim = (req, res, next) =>{
@@ -93,6 +99,7 @@ const ThemPhim =(req, res, next) =>{
         dangChieu: req.body.dangChieu,
         hot: req.body.hot
     })
+    // saveImage(phim, req.body.imag)
     if(req.file){
         phim.image = req.file.path
     }
@@ -109,6 +116,41 @@ const ThemPhim =(req, res, next) =>{
         })
     })
 }
+
+const ThemLichChieu =(req, res, next) =>{
+    let lichchieu = new LichChieu({
+        maLichChieu: req.body.maLichChieu,
+        moRap: req.body.maRap,
+        tenRap: req.body.tenRap,
+        ngayChieuGioChieu: req.body.ngayChieuGioChieu,
+        giaVe: req.body.giaVe,
+        thoiLuong: req.body.thoiLuong
+    })
+    // saveImage(phim, req.body.imag)
+    lichchieu.save()
+    .then(response =>{
+        res.json({
+            message: 'Store susccessful'
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot store the movie'
+        })
+    })
+}
+
+// function saveImage(movie, imgEncoded){
+//     if( imgEncoded = null) return;
+
+//     const img = JSON.parse(imgEncoded);
+
+//     if(img != null && imageMimeTypes.includes(img.type)){
+//         phim.img = new Buffer.from(img.data, 'base64')
+//         phim.imgType = img.type
+//     }
+// }
 
 // update toan bo thong tin phim
 const update=(req, res, next) =>{
@@ -236,7 +278,34 @@ const ThemBanner =(req, res, next) =>{
     })
 }
 
+const ThemLichChieuVaoPhim = async (req,res,next) =>{
+    let MaPhim = req.body.maPhim
+    // let HeThongRapID = req.body.heThongRapID
+    // let CumRapID = req.body.CumRapID
+    // let LichChieuID = req.body.LichChieuID
+    let updateData ={
+        heThongRapChieu: req.body.heThongRapID
+    }
+    // let newRap = req.body.RapID
+    Phim.findOneAndUpdate({maPhim: MaPhim}, {$set: updateData})
+    // result.heThongRapChieu.push(HeThongRapID);
+    // result.heThongRapChieu.cumRapChieu.push(CumRapID);
+    // result.heThongRapChieucumRapChieu.lichChieuPhim.push( LichChieuID);
+    // await result.save()
+    .then(()=>{
+        res.json({
+            message: 'Thêm lịch chiếu vào phim thành công'
+        })
+     })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!'
+        })
+    })
+}
+
 module.exports = {
     LayDanhSachPhim, LayThongTinPhim, LayThongTinPhimBangTen, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
-    LayDanhSachBanner, ThemBanner
+    LayDanhSachBanner, ThemBanner, ThemLichChieuVaoPhim,
+    ThemLichChieu
 }

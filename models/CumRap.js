@@ -3,13 +3,21 @@ const Schema = mongoose.Schema
 
 const  cumRapSchema = new Schema({
     maHeThongRap:{
-        type: String
+        type: String,
+        required: true
+    },
+    maCumRap:{
+        type: String,
+        required: true,
+        unique: true
     },
     tenCumRap:{
-        type: String
+        type: String,
+        required: true
     },
     diaChi:{
-        type: String
+        type: String,
+        required: true
     },
     danhSachRap:[
         {

@@ -3,10 +3,13 @@ const Schema = mongoose.Schema
 
 const rapSchema = new Schema({
     maRap:{
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
     tenRap:{
-        type: String
+        type: String,
+        required: true
     },
     cumRap:{
         type: mongoose.Schema.Types.ObjectId,

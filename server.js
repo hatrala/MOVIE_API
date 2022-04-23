@@ -11,6 +11,9 @@ const HeThongRapRoute = require('./routes/hethongrap')
 mongoose.connect('mongodb+srv://hatrala:08072001@cluster0.n0kyj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
 const db = mongoose.connection
 
+// const GridFsStrorage = require('multer-gridfs-storage')
+// const Grid = require('gridfs-stream')
+
 db.on('error', function(err){
     console.log('conection error',err);
 })
@@ -18,6 +21,28 @@ db.on('error', function(err){
 db.once('open',()=>{
     console.log('Database Connection Established!')
 })
+
+// conn.once('open',() =>{
+//     let gfs = Grid(conn.db, mongoose.mongo)
+//     gfs.collection('images')
+// })
+
+// const storage = new GridFsStorage({
+//     url: 'mongodb+srv://hatrala:08072001@cluster0.n0kyj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+//     file: (req, file) => {
+//       return new Promise((resolve, reject) => {
+//           const filename = file.originalname;
+//           const fileInfo = {
+//             filename: filename,
+//             bucketName: 'uploads'
+//           };
+//           resolve(fileInfo);
+//       });
+//     }
+//   });
+
+// const upload = multer({ storage})
+
 const app = express()
 
 const corsOptions ={
@@ -31,7 +56,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 app.listen(PORT, () =>{
     console.log('Sever is running on port', {PORT})
@@ -43,5 +68,5 @@ app.use('/api/Quanlyphim', phimRoute)
 app.use('/uploads', express.static('uploads'))
 app.use('/api/QuanLyRap', HeThongRapRoute)
 app.use('/api/employee', EmployeeRoute)
-app.use('/api', AuthRoute)
+app.use('/api/QuanLyNguoiDung', AuthRoute)
 app.use('/user', UserRoute)

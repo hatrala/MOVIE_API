@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const res = require('express/lib/response')
-const { json } = require('express/lib/response')
+// const { json } = require('express/lib/response')
 
 const register = (req,res,next) => {
     bcrypt.hash(req.body.password, 10, function(err, hashedPass){
@@ -31,8 +31,8 @@ const register = (req,res,next) => {
 }
 
 const login = (req,res,next)=>{
-    var useremail = req.body.useremail
-    var password = req.body.password
+    var useremail = req.body.taiKhoan
+    var password = req.body.matKhau
 
      User.findOne({email: useremail})
     .then(user =>{
@@ -45,11 +45,20 @@ const login = (req,res,next)=>{
                 }
                 if(result){
                     const userid = user.id
-                    let token = jwt.sign({id: user.id, admin: user.admin}, 'abc', {})
+                    let accessToken = jwt.sign({id: user.id, admin: user.admin}, 'abc', {})
                     res.json({
-                        message: 'login successful',
-                        userid,
-                        token
+                        statusCode : "200",
+                        message: "Login thành công!",
+                        content:{
+                            taiKhoan: "mrxadmin",
+                            hoTen: "MRX",
+                            email: "mrx112@gmail.com",
+                            soDT: "0909009009",
+                            maNhom: "GP00",
+                            maLoaiNguoiDung: "QuanTri",
+                            userid,
+                            accessToken
+                        }
                     })
                 }else{
                     res.json({
