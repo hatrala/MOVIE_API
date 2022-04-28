@@ -41,48 +41,48 @@ const phimSchema = new Schema({
     hot:{
         type: Boolean
     },
-    // heThongRapChieu:[
-    //     {
-    //         cumRapChieu:[
-    //             {
-    //                 lichChieuPhim:[
-    //                     {
-    //                         type: mongoose.Schema.Types.ObjectId,
-    //                         ref: 'lichchieu'
-    //                     }
-    //                 ],
-    //                 type: mongoose.SchemaTypes.ObjectId,
-    //                 ref: 'CumRap'
-    //             }
-    //         ],
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'hethongrap'
-    //     }
-    // ],
     heThongRapChieu:[
         {
-          cumRapChieu: [
-            {
-              lichChieuPhim: [
-                {
-                  maLichChieu: {type: String},
-                  maRap: {type: Number},
-                  tenRap: {type: String},
-                  ngayChieuGioChieu:{type: Date},
-                  giaVe:{type: Number},
-                  thoiLuong: {type: Number}
-                }
-              ],
-              maCumRap: {type: String},
-              tenCumRap: {type: String},
-              hinhAnh: {type: String},
-              diaChi: {type: String}
-            }],
-          maHeThongRap: {type: String},
-          tenHeThongRap: {type: String},
-          logo: {type: String}
+            // cumRapChieu:[
+            //     {
+            //         lichChieuPhim:[
+            //             {
+            //                 type: mongoose.Schema.Types.ObjectId,
+            //                 ref: 'lichchieu'
+            //             }
+            //         ],
+            //         type: mongoose.SchemaTypes.ObjectId,
+            //         ref: 'CumRap'
+            //     }
+            // ],
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'heThongRapChieu'
         }
-      ],
+    ],
+    // heThongRapChieu:[
+    //     {
+    //       cumRapChieu: [
+    //         {
+    //           lichChieuPhim: [
+    //             {
+    //               maLichChieu: {type: String},
+    //               maRap: {type: Number},
+    //               tenRap: {type: String},
+    //               ngayChieuGioChieu:{type: Date},
+    //               giaVe:{type: Number},
+    //               thoiLuong: {type: Number}
+    //             }
+    //           ],
+    //           maCumRap: {type: String},
+    //           tenCumRap: {type: String},
+    //           hinhAnh: {type: String},
+    //           diaChi: {type: String}
+    //         }],
+    //       maHeThongRap: {type: String},
+    //       tenHeThongRap: {type: String},
+    //       logo: {type: String}
+    //     }
+    //   ],
     image:{
         type: String
     },

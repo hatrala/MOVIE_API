@@ -6,6 +6,8 @@ const LichChieu = require("../models/LichChieu")
 const Phim = require('../models/Phim')
 const Banner = require('../models/Banner')
 const multer = require('multer')
+const heThongRapChieu = require('../models/HeThongRapChieu')
+const CumRapChieu = require('../models/CumRapChieu')
 const upload = multer({dest: 'uploads/'})
 const imageMimeTypes = ['image/png', 'image/jpg'];
 
@@ -31,6 +33,17 @@ const LayDanhSachPhim = (req, res, next) =>{
 const LayThongTinPhim =(req, res, next) =>{
     let phimID = req.body.phimID
     Phim.findById(phimID)
+    .populate({
+        path: 'heThongRapChieu', 
+        populate: {
+          path: 'cumRapChieu',
+          populate: {
+              path: 'lichChieuPhim'
+          }
+        }
+      })
+    // .heThongRapChieu.populate('cumRapChieu')
+    // .CumRapChieu.populate('lichChieuPhim')
     .then(content =>{
         res.json({
             statusCode : "200",
@@ -280,18 +293,16 @@ const ThemBanner =(req, res, next) =>{
 
 const ThemLichChieuVaoPhim = async (req,res,next) =>{
     let MaPhim = req.body.maPhim
-    // let HeThongRapID = req.body.heThongRapID
+    let HeThongRapID = req.body.heThongRapID
     // let CumRapID = req.body.CumRapID
     // let LichChieuID = req.body.LichChieuID
-    let updateData ={
-        heThongRapChieu: req.body.heThongRapID
-    }
+    // let heThongRapChieu = req.body.heThongRapID
     // let newRap = req.body.RapID
-    Phim.findOneAndUpdate({maPhim: MaPhim}, {$set: updateData})
-    // result.heThongRapChieu.push(HeThongRapID);
+    let result = await Phim.findOne({maPhim: MaPhim});
+    result.heThongRapChieu.push({$each: HeThongRapID});
     // result.heThongRapChieu.cumRapChieu.push(CumRapID);
     // result.heThongRapChieucumRapChieu.lichChieuPhim.push( LichChieuID);
-    // await result.save()
+     await result.save()
     .then(()=>{
         res.json({
             message: 'Thêm lịch chiếu vào phim thành công'
@@ -304,8 +315,41 @@ const ThemLichChieuVaoPhim = async (req,res,next) =>{
     })
 }
 
+const LayThongTinLichChieu = async (req, res, next) =>{
+    let phimID = req.body.phimID
+    let result = await  Phim.findById(phimID)
+    .populate({
+        path: 'heThongRapChieu', 
+        populate: {
+          path: 'cumRapChieu',
+          populate: {
+              path: 'lichChieuPhim'
+          }
+        }
+      })
+      
+    // .heThongRapChieu.populate('cumRapChieu')
+    // .CumRapChieu.populate('lichChieuPhim')
+    .then(result =>{
+        let heThongRapChieu = result.heThongRapChieu
+        res.json({
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content :{
+                heThongRapChieu
+            }
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot show the movie'
+        })
+    })
+}
+
 module.exports = {
     LayDanhSachPhim, LayThongTinPhim, LayThongTinPhimBangTen, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
     LayDanhSachBanner, ThemBanner, ThemLichChieuVaoPhim,
-    ThemLichChieu
+    ThemLichChieu, LayThongTinLichChieu
 }

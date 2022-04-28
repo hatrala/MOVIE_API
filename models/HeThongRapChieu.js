@@ -13,8 +13,15 @@ const heThongRapChieuSchema = new Schema({
     },
     logo:{
         type: String
-    }
+    },
+    cumRapChieu:[
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'CumRapChieu'
+        }
+    ]
+
 },{timestamps: true})
 
-const HeThongRap = mongoose.model('hethongrap', heThongRapSchema)
-module.exports = HeThongRap
+const heThongRapChieu = mongoose.model('heThongRapChieu', heThongRapChieuSchema)
+module.exports = heThongRapChieu

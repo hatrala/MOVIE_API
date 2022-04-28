@@ -7,6 +7,7 @@ const upload = require('../middlewave/upload')
 
 router.get('/', QuanlyPhim.LayDanhSachPhim)
 router.post('/LayThongTinPhim', QuanlyPhim.LayThongTinPhim)
+router.post('/LayThongTinLichChieu', QuanlyPhim.LayThongTinLichChieu)
 router.post('/LayThongTinPhimBangTen', QuanlyPhim.LayThongTinPhim)
 router.post('/LayThongTinPhimTheoNgay', QuanlyPhim.LayThongTinPhimTheoNgay)
 router.post('/ThemPhim', upload.single('image') ,QuanlyPhim.ThemPhim)
