@@ -13,7 +13,13 @@ const heThongRapSchema = new Schema({
     },
     logo:{
         type: String
-    }
+    },
+    cumRapChieu:[
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'CumRap'
+        }
+    ]
 },{timestamps: true})
 
 const HeThongRap = mongoose.model('hethongrap', heThongRapSchema)

@@ -1,6 +1,7 @@
 const express  = require('express')
 const router = express.Router()
 
+const QuanlyPhim = require('../controllers/QuanlyPhim')
 const HeThongRapController = require("../controllers/HeThongRapController")
 
 router.get('/LayThongTinHeThongRap', HeThongRapController.LayThongTinHeThongRap)
@@ -11,4 +12,7 @@ router.post('/ThemRapVaoCum', HeThongRapController.ThemRapVaoCum)
 router.get('/LayThongTinCumRap', HeThongRapController.LayThongTinCumRap)
 router.get('/LayThongTinCumRapTheoHeThong', HeThongRapController.LayThongTinCumRapTheoHeThong)
 router.post('/UpdateThongTinCumRap', HeThongRapController.UpdateThongTinCumRap)
+
+router.get('/LayThongTinLichChieuPhim', QuanlyPhim.LayThongTinLichChieu)
+
 module.exports = router

@@ -3,7 +3,7 @@ const router = express.Router()
 
 const AuthController = require('../controllers/AuthController')
 
-router.post('/register', AuthController.register)
+router.post('/DangKy', AuthController.register)
 router.post('/DangNhap', AuthController.login)
-
+router.post('/ThongTinTaiKhoan', AuthController.ThongTinTaiKhoan)
 module.exports = router

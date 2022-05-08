@@ -316,8 +316,39 @@ const ThemLichChieuVaoPhim = async (req,res,next) =>{
 }
 
 const LayThongTinLichChieu = async (req, res, next) =>{
-    let phimID = req.body.phimID
-    let result = await  Phim.findById(phimID)
+    let phimID = req.query.maPhim
+    if(1){
+         Phim.findOne({maPhim: phimID})
+    .populate({
+        path: 'heThongRapChieu', 
+        populate: {
+          path: 'cumRapChieu',
+          populate: {
+              path: 'lichChieuPhim'
+          }
+        }
+      })
+      
+    // .heThongRapChieu.populate('cumRapChieu')
+    // .CumRapChieu.populate('lichChieuPhim')
+    .then(content =>{
+        // let heThongRapChieu = result.heThongRapChieu
+        res.json({
+            statusCode : "200",
+            message: "Xử lý thành công!",
+            content
+        })
+    })
+    .catch(error =>{
+        res.json({
+            phimID,
+            message: 'An error occured!',
+            message: 'Cannot show the movie'
+        })
+    })
+}else{
+    let result = await  
+    Phim.find()
     .populate({
         path: 'heThongRapChieu', 
         populate: {
@@ -347,6 +378,8 @@ const LayThongTinLichChieu = async (req, res, next) =>{
         })
     })
 }
+    }
+    
 
 module.exports = {
     LayDanhSachPhim, LayThongTinPhim, LayThongTinPhimBangTen, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 

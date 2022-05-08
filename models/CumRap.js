@@ -24,6 +24,12 @@ const  cumRapSchema = new Schema({
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'Rap'
         }
+    ],
+    lichChieuPhim:[
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'lichchieu'
+        }
     ]
 },{timestamps: true})
 

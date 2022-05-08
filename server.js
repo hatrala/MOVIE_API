@@ -9,10 +9,11 @@ const AuthRoute = require('./routes/auth')
 const UserRoute = require('./routes/user')
 const HeThongRapRoute = require('./routes/hethongrap')
 const LichChieuRoute = require('./routes/lichchieu')
+const DatVeRoute = require('./routes/datve')
 mongoose.connect('mongodb+srv://hatrala:08072001@cluster0.n0kyj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
 const db = mongoose.connection
 
-// const GridFsStrorage = require('multer-gridfs-storage')
+// const GridFsStrorage = require('multer-gridfs-storage') 
 // const Grid = require('gridfs-stream')
 
 db.on('error', function(err){
@@ -72,3 +73,4 @@ app.use('/api/employee', EmployeeRoute)
 app.use('/api/QuanLyNguoiDung', AuthRoute)
 app.use('/user', UserRoute)
 app.use('/QuanLyLichChieu', LichChieuRoute)
+app.use('/QuanLyDatVe', DatVeRoute)

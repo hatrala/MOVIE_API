@@ -62,6 +62,7 @@ const ThemCumRap = (req,res,next) =>{
         maCumRap: req.body.maCumRap,
         tenCumRap: req.body.tenCumRap,
         diaChi: req.body.diaChi
+
     })
     cumrap.save()
     .then(response =>{
@@ -80,7 +81,8 @@ const ThemCumRap = (req,res,next) =>{
 const ThemRap = async (req,res,next) =>{
     let rap = new Rap({
         maRap: req.body.maRap,
-        tenRap: req.body.tenRap
+        tenRap: req.body.tenRap,
+        cumRap: req.body.cumRapID
     })
     rap.save()
     .then(response =>{

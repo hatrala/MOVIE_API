@@ -12,9 +12,17 @@ const rapSchema = new Schema({
         required: true
     },
     cumRap:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'CumRap'
-    }
+    },
+    soGhe:{
+        type: Number,
+        default: 160
+    },
+    danhSachGhe:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ghe'
+    }]
 },{timestamps: true})
 
 const Rap  = mongoose.model('Rap', rapSchema)

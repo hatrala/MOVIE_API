@@ -2,9 +2,18 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const lichChieuSchema = new Schema({
+    maNhom:{
+        type: String
+    },
     maLichChieu:{
         type: Number,
         required: true
+    },
+    maHeThongRap:{
+        type: String
+    },
+    maCumRap:{
+        type: Number
     },
     maRap:{
         type: Number
@@ -19,6 +28,9 @@ const lichChieuSchema = new Schema({
         type: Number
     },
     thoiLuong:{
+        type: Number
+    },
+    maphim:{
         type: Number
     }
 })

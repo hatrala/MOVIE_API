@@ -55,8 +55,8 @@ const phimSchema = new Schema({
             //         ref: 'CumRap'
             //     }
             // ],
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'heThongRapChieu'
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'hethongrap'
         }
     ],
     // heThongRapChieu:[
