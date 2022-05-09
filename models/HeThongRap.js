@@ -19,7 +19,12 @@ const heThongRapSchema = new Schema({
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'CumRap'
         }
-    ]
+    ],
+    danhSachPhim:
+        [{
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'phim'
+    }]
 },{timestamps: true})
 
 const HeThongRap = mongoose.model('hethongrap', heThongRapSchema)

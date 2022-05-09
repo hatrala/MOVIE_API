@@ -13,6 +13,11 @@ router.get('/LayThongTinCumRap', HeThongRapController.LayThongTinCumRap)
 router.get('/LayThongTinCumRapTheoHeThong', HeThongRapController.LayThongTinCumRapTheoHeThong)
 router.post('/UpdateThongTinCumRap', HeThongRapController.UpdateThongTinCumRap)
 
+router.post('/ThemPhimVaoHeThong', HeThongRapController.ThemPhimVaoHeThong)
+router.post('/ThemPhimVaoCum', HeThongRapController.ThemPhimVaoCum)
+
 router.get('/LayThongTinLichChieuPhim', QuanlyPhim.LayThongTinLichChieu)
+
+router.get('/LayThongTinLichChieuTheoHeThongRap', HeThongRapController.LayThongTinLichChieuHeThongRap)
 
 module.exports = router

@@ -1,6 +1,7 @@
 const HeThongRap = require("../models/HeThongRap")
 const Rap = require("../models/Rap")
 const CumRap = require("../models/CumRap")
+const LichChieu = require("../models/LichChieu")
 
 const LayThongTinHeThongRap = (req, res, next) =>{
     let maHeThongRap = req.body.maHeThongRap
@@ -169,6 +170,96 @@ const LayThongTinCumRapTheoHeThong = (req, res, next) =>{
     }
 }
 
+
+const LayThongTinLichChieuHeThongRap = async (req, res, next) =>{
+    let maHeThongRap = req.query.maHeThongRap
+    if(maHeThongRap){
+    let found_cumrap = await CumRap.find({maHeThongRap: maHeThongRap})
+    .populate('danhSachPhim')
+    let lstCumRap = []
+    for(let i = 0; i< found_cumrap.length; i++){
+        let cumrap = found_cumrap[i]
+        let danhSach_phim = cumrap.danhSachPhim
+        let danhSachPhim =[]
+        for(let j =0; j< danhSach_phim.length; j++){
+            let phim = danhSach_phim[j]
+            let maphim = phim.maPhim
+            let lstLichChieuTheoPhim = await LichChieu.find({maPhim: maphim})
+            danhSachPhim.push({
+                maPhim: phim.maPhim,
+              tenPhim: phim.tenPhim,
+              hinhAnh: phim.hinhAnh,
+              hot: phim.hot,
+              dangChieu: phim.dangChieu,
+              sapChieu: phim.sapChieu,
+                lstLichChieuTheoPhim
+            })
+        }
+        lstCumRap.push({
+            danhSachPhim,
+            cumrap
+        })
+    }
+
+    // let danhSachPhim = await found_cumrap.danhSachPhim
+    // .then(()=>{
+        res.json({
+            content:{
+                lstCumRap
+            }
+        })
+    // })
+    // .catch(error =>{
+    //     res.json({
+    //         message: 'An error occured!'
+    //     })
+    // })
+    }else{
+        let content= []
+        let found_heThongRap = await HeThongRap.find()
+        for(let k = 0; k< found_heThongRap.length; k++){
+            let heThong = found_heThongRap[k]
+            let found_cumrap = await CumRap.find({maHeThongRap: heThong.maHeThongRap})
+            .populate('danhSachPhim')
+            let lstCumRap = []
+            for(let i = 0; i< found_cumrap.length; i++){
+                let cumrap = found_cumrap[i]
+                let danhSach_phim = cumrap.danhSachPhim
+                let danhSachPhim =[]
+            for(let j =0; j< danhSach_phim.length; j++){
+                let phim = danhSach_phim[j]
+                let maphim = phim.maPhim
+                let lstLichChieuTheoPhim = await LichChieu.find({maPhim: maphim})
+                danhSachPhim.push({
+                    maPhim: phim.maPhim,
+                    tenPhim: phim.tenPhim,
+                    hinhAnh: phim.hinhAnh,
+                    hot: phim.hot,
+                    dangChieu: phim.dangChieu,
+                    sapChieu: phim.sapChieu,
+                    lstLichChieuTheoPhim
+            })
+        }
+        lstCumRap.push({
+            danhSachPhim,
+            cumrap
+        })
+    }
+        content.push({
+            lstCumRap,
+            maHeThongRap: heThong.maHeThongRap,
+            tenHeThongRap: heThong.tenHeThongRap,
+            logo: heThong.logo,
+            maNhom: heThong.maNhom
+        })
+    }
+    res.json({
+        content
+        })
+}
+    
+}
+
 const UpdateThongTinCumRap =(req, res, next) =>{
     let cumRapID = req.body.cumRapID
 
@@ -191,8 +282,45 @@ const UpdateThongTinCumRap =(req, res, next) =>{
     })
 }
 
+const ThemPhimVaoHeThong = async (req,res,next) =>{
+    let maHeThongRap = req.body.maHeThongRap
+    let newPhim = req.body.phimID
+     let result = await HeThongRap.findOne({maHeThongRap: maHeThongRap});
+    result.danhSachPhim.push({$each: newPhim});
+    await result.save()
+    .then(()=>{
+        res.json({
+            message: 'Thêm Phim vào hệ thống thành công'
+        })
+     })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!'
+        })
+    })
+}
+
+const ThemPhimVaoCum = async (req,res,next) =>{
+    let maCum = req.body.maCum
+    let newPhim = req.body.phimID
+     let result = await CumRap.findOne({maCumRap: maCum})
+    result.danhSachPhim.push({$each: newPhim});
+    await result.save()
+    .then(()=>{
+        res.json({
+            message: 'Thêm Phim vào hệ thống thành công'
+        })
+     })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!'
+        })
+    })
+}
+
 module.exports = {
     LayThongTinHeThongRap, ThemHeThongRap,
     ThemCumRap, ThemRapVaoCum, LayThongTinCumRap,
-    UpdateThongTinCumRap, ThemRap, LayThongTinCumRapTheoHeThong
+    UpdateThongTinCumRap, ThemRap, LayThongTinCumRapTheoHeThong, LayThongTinLichChieuHeThongRap,
+    ThemPhimVaoHeThong, ThemPhimVaoCum
 }

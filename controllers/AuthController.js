@@ -104,7 +104,7 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
     const decode = jwt.verify(token, 'abc')
     req.user = decode
     let taiKhoanNguoiDung = req.user.taiKhoan
-    let found_user = await User.findOne({taiKhoanNguoiDung: req.user.taiKhoan})
+    let found_user = await User.findOne({taiKhoan: req.user.taiKhoan})
     .populate({
         path: 'danhSachVe', 
         populate: {
@@ -147,13 +147,15 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
         statusCode: 200,
         message: "Xử lý thành công!",
         content:{
-            // taiKhoanNguoiDung,
+            taiKhoanNguoiDung,
             taiKhoan: found_user.taiKhoan,
             hoTen: found_user.hoTen,
             email: found_user.email,
             soDT: found_user.soDT,
             maNhom: found_user.maNhom,
             thongTinDatVe
+            // Ve
+            // found_user
         }
     })
 

@@ -13,7 +13,7 @@ const lichChieuSchema = new Schema({
         type: String
     },
     maCumRap:{
-        type: Number
+        type: String
     },
     maRap:{
         type: Number

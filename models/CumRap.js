@@ -30,6 +30,14 @@ const  cumRapSchema = new Schema({
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'lichchieu'
         }
+    ],
+    danhSachPhim:[
+        {
+            
+                type: mongoose.SchemaTypes.ObjectId,
+                ref: 'phim'
+            
+        }
     ]
 },{timestamps: true})
 

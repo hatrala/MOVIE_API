@@ -52,7 +52,9 @@ const ThemLichChieu =(req, res, next) =>{
         ngayChieuGioChieu: req.body.ngayChieuGioChieu,
         giaVe: req.body.giaVe,
         thoiLuong: req.body.thoiLuong,
-        maphim: req.body.maPhim
+        maphim: req.body.maPhim,
+        maHeThongRap: req.body.maHeThongRap,
+        maCumRap: req.body.maCumRap
     })
     // saveImage(phim, req.body.imag)
     lichchieu.save()

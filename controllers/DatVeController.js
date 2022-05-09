@@ -250,7 +250,7 @@ const DatVe = async (req,res,next) =>{
         await newVe.save()
         const now_ve = await Ve.findOne({maVe: maGhe_sum})
                 let ve_id = now_ve._id
-                let found_user = await User.findOne({taiKhoanNguoiDung: req.user.taiKhoan});
+                let found_user = await User.findOne({taiKhoan: req.user.taiKhoan});
                 found_user.danhSachVe.push(ve_id)
                 await found_user.save()
         if(check){
