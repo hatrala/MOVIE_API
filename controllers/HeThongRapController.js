@@ -86,6 +86,8 @@ const ThemRap = async (req,res,next) =>{
         cumRap: req.body.cumRapID
     })
     rap.save()
+    // let rap = req.body.rap
+    // Rap.insertMany(rap)
     .then(response =>{
         res.json({
             message: 'Store susccessful'
@@ -229,7 +231,7 @@ const LayThongTinLichChieuHeThongRap = async (req, res, next) =>{
             for(let j =0; j< danhSach_phim.length; j++){
                 let phim = danhSach_phim[j]
                 let maphim = phim.maPhim
-                let lstLichChieuTheoPhim = await LichChieu.find({maPhim: maphim})
+                let lstLichChieuTheoPhim = await LichChieu.find({maphim: maphim})
                 danhSachPhim.push({
                     maPhim: phim.maPhim,
                     tenPhim: phim.tenPhim,
@@ -242,7 +244,10 @@ const LayThongTinLichChieuHeThongRap = async (req, res, next) =>{
         }
         lstCumRap.push({
             danhSachPhim,
-            cumrap
+            maCumRap: cumrap.maCumRap,
+          tenCumRap: cumrap.tenCumRap,
+          hinhAnh: cumrap.hinhAnh,
+          diaChi: cumrap.diaChi
         })
     }
         content.push({

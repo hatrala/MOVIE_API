@@ -18,11 +18,7 @@ const rapSchema = new Schema({
     soGhe:{
         type: Number,
         default: 160
-    },
-    danhSachGhe:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ghe'
-    }]
+    }
 },{timestamps: true})
 
 const Rap  = mongoose.model('Rap', rapSchema)

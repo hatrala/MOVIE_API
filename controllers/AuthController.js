@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const res = require('express/lib/response')
 
 
-const Ghe = require("../models/Ghe")
 const Rap = require("../models/Rap")
 const Phim = require("../models/Phim")
 const LichChieu = require("../models/LichChieu")
@@ -117,6 +116,8 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
     let thongTinDatVe =[]
     for (let i = 0; i < Ve.length; i++) {
         let ve = Ve[i]
+        let lich = await LichChieu.findOne({maLichChieu: ve.maLichChieu})
+        let phim = await Phim.findOne({maPhim: lich.maphim})
         let danhSachGhe =[]
         let Ghe = ve.danhSachGhe
         for(let j = 0; j< Ghe.length; j++){
@@ -141,6 +142,8 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
             maVe: ve.maVe,
             ngayDat: ve.ngayDat,
             giaVe: ve.giaVe,
+            tenPhim: phim.tenPhim
+            // lich
         })
     }
     res.json({

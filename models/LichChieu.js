@@ -2,12 +2,13 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const lichChieuSchema = new Schema({
-    maNhom:{
-        type: String
-    },
+    // maNhom:{
+    //     type: String
+    // },
     maLichChieu:{
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     maHeThongRap:{
         type: String
@@ -32,7 +33,11 @@ const lichChieuSchema = new Schema({
     },
     maphim:{
         type: Number
-    }
+    },
+    danhSachGhe:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ghe'
+    }]
 })
 
 const LichChieu = mongoose.model('lichchieu', lichChieuSchema)

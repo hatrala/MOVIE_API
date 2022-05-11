@@ -3,10 +3,13 @@ const Schema = mongoose.Schema
 
 const phimSchema = new Schema({
     maPhim:{
-        type: Number
+        type: Number,
+        required: true,
+        unique: true
     },
     tenPhim:{
-        type: String
+        type: String,
+        required: true
     },
     biDanh:{
         type: String
@@ -14,17 +17,15 @@ const phimSchema = new Schema({
     moTa: {
         type: String
     },
-    maNhom:{
-        type: String
-    },
+    // maNhom:{
+    //     type: String
+    // },
     trailer: {
         type: String
     },
     hinhAnh: {
-        type: String
-    },
-    maNhom:{
-        type: String
+        type: String,
+        required: true
     },
     ngayKhoiChieu:{
         type: Date
@@ -58,7 +59,7 @@ const phimSchema = new Schema({
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'hethongrap'
         }
-    ],
+    ]
     // heThongRapChieu:[
     //     {
     //       cumRapChieu: [
@@ -83,15 +84,6 @@ const phimSchema = new Schema({
     //       logo: {type: String}
     //     }
     //   ],
-    image:{
-        type: String
-    },
-    img:{
-        type: Buffer
-    },
-    imgType: {
-        type: String
-    }
 }, {timestamps: true})
 
 const Phim = mongoose.model('phim', phimSchema)

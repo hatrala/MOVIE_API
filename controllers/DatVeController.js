@@ -1,5 +1,5 @@
 const User = require("../models/User")
-const PhongVe = require("../models/PhongVe")
+
 const Ghe = require("../models/Ghe")
 const Rap = require("../models/Rap")
 const Phim = require("../models/Phim")
@@ -34,6 +34,7 @@ const TaoLichChieu = async (req, res, next) =>{
 const LayDanhSachPhongve = async (req, res, next) =>{
     let maLichChieu = req.query.maLichChieu
      const lichchieu = await LichChieu.findOne({maLichChieu: maLichChieu})
+     .populate("danhSachGhe")
     // .populate({
     //     path: '', 
     //     populate: {
@@ -49,10 +50,9 @@ const LayDanhSachPhongve = async (req, res, next) =>{
     let tenPhim = phim.tenPhim
     let hinhAnh = phim.hinhAnh
     const marap = lichchieu.maRap
-    const rap = await Rap.findOne({maRap: marap}).populate("danhSachGhe")
-    let danhSachGhe = rap.danhSachGhe
-    
-    const cumrap = await CumRap.findById(rap.cumRap)
+    let danhSachGhe = lichchieu.danhSachGhe
+
+    const cumrap = await CumRap.findOne({maCumRap: lichchieu.maCumRap})
      let tenCumRap = cumrap.tenCumRap
      let diaChi = cumrap.diaChi
     //  .then(content =>{
@@ -104,11 +104,22 @@ const ThemGhe = async (req,res, next) =>{
 }
 
 const ThemGhe_test = async (req,res, next) =>{
+    let maLichChieu = req.body.maLichChieu
     let ghe = req.body.ghe
     Ghe.insertMany(ghe)
+    let found_lichChieu = await LichChieu.findOne({maLichChieu: maLichChieu})
+    let ids = []
+    for(let i = 85961; i<=86120;i++){
+        let found_ghe = await Ghe.findOne({maGhe: i})
+         let id = await found_ghe._id 
+          ids.push(id)
+    }
+    found_lichChieu.danhSachGhe.push({$each: ids});
+    await found_lichChieu.save()
     .then(response =>{
         res.json({
-            message: 'Store susccessful'
+            message: 'Store susccessful',
+            ids
         })
     })
     .catch(error =>{
@@ -120,7 +131,10 @@ const ThemGhe_test = async (req,res, next) =>{
 }
 
 const DS_Ghe = async (req,res,next) =>{
-    let ghe = await Ghe.find()
+    let maLichChieu = req.body.maLichChieu
+    let found_lichChieu = await LichChieu.findOne({maLichChieu: maLichChieu})
+    let maRap = found_lichChieu.maRap
+    let ghe = await Ghe.find({maRap: maRap})
     let ids = await ghe.map(function(ghe){ return ghe._id })
     // .then(response =>{
         res.json({
@@ -128,18 +142,18 @@ const DS_Ghe = async (req,res,next) =>{
             ids
         })
     // })
-    .catch(error =>{
-        res.json({
-            message: 'An error occured!',
-            message: 'Cannot store the movie'
-        })
-    })
+    // .catch(error =>{
+    //     res.json({
+    //         message: 'An error occured!',
+    //         message: 'Cannot store the movie'
+    //     })
+    // })
 }
 
 const ThemGheVaoRap = async (req,res,next) =>{
-    let rapid = req.body.rapid
+    let maLichChieu = req.body.maLichChieu
     let newghe = req.body.gheID
-    let result = await Rap.findById(rapid);
+    let result = await LichChieu.findOne({maLichChieu: maLichChieu});
     result.danhSachGhe.push({$each: newghe});
     await result.save()
     .then(()=>{

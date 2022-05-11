@@ -11,6 +11,13 @@ const CumRapChieu = require('../models/CumRapChieu')
 const upload = multer({dest: 'uploads/'})
 const imageMimeTypes = ['image/png', 'image/jpg'];
 
+// function arrayRemove(arr, value) { 
+    
+//     return arr.filter(function(ele){ 
+//         return ele != value; 
+//     });
+// }
+
 
 // show list of movie
 const LayDanhSachPhim = (req, res, next) =>{
@@ -317,35 +324,114 @@ const ThemLichChieuVaoPhim = async (req,res,next) =>{
 
 const LayThongTinLichChieu = async (req, res, next) =>{
     let phimID = req.query.maPhim
+    let lc = null
+    let c = 0
+    let check = 0;
     if(1){
-         Phim.findOne({maPhim: phimID})
-    .populate({
-        path: 'heThongRapChieu', 
-        populate: {
-          path: 'cumRapChieu',
-          populate: {
-              path: 'lichChieuPhim'
-          }
+        let found_phim = await  Phim.findOne({maPhim: phimID})
+    // .populate({
+    //     path: 'heThongRapChieu', 
+    //     populate: {
+    //       path: 'cumRapChieu',
+    //       populate: {
+    //           path: 'lichChieuPhim'
+    //       }
+    //     }
+        // })
+        let heThongRapChieu =[]
+        let found_heThongRap = await HeThongRap.find()
+        for(let i = 0; i< found_heThongRap.length;i++){
+            let hethong = found_heThongRap[i]
+            let found_cumRap = await CumRap.find({$and:[{danhSachPhim:  found_phim._id},{maHeThongRap: hethong.maHeThongRap}]}).populate('lichChieuPhim')
+            if(found_cumRap){
+                for( let j  = 0; j< found_cumRap.length; j++){
+                    let cum = found_cumRap[j]
+                    let lich = found_cumRap[j].lichChieuPhim
+                    for( let k =0; k< found_cumRap[j].lichChieuPhim.length; k++ ){
+                         lc = lich[k];
+                         let ma = lc.maphim
+                        if(ma != found_phim.maPhim ){
+                            found_cumRap[j].lichChieuPhim.splice(k, 1);
+                            // delete found_cumRap[j].lichChieuPhim[k];
+                            k--
+                            // found_cumRap[j].lichChieuPhim.length = arrayRemove(found_cumRap[j].lichChieuPhim.length, k)
+                        }
+                    }
+                    // found_cumRap[j].lichChieuPhim = lich
+                     c = 1
+                }
+                if(c==1){
+                heThongRapChieu.push({
+                    maHeThongRap: hethong.maHeThongRap,
+                    tenHeThongRap: hethong.tenHeThongRap,
+                    logo: hethong.logo,
+                    cumRapChieu: found_cumRap,
+                })
+            }
+                
+            }
+            
         }
-      })
+        // let cumRapChieu = []
+        // let lichchieu = []
+        // let found_lichChieu = await LichChieu.find({maPhim: found_phim.maPhim})
+        
+        // let maphim = found_phim.maPhim
+        // let heThongRapChieu = found_phim.heThongRapChieu
+        // let cumRapChieu = heThongRapChieu.cumRapChieu
+        
+        // for(let i=1; i< lichChieuPhim.length;i++){
+        //     let lichChieuPhim = cumRapChieu.lichChieuPhim
+        //     let found_lichChieu = lichChieuPhim[i]
+        //     if(found_lichChieu.maPhim != maphim ){
+        //         lichChieuPhim.splice(i, 1);
+        //     }
+        // }
+        //  found_phim.heThongRapChieu.cumRapChieu.lichChieuPhim = lichChieuPhim
+        //  for( let j = 1; j< cumRapChieu.length;j++){
+        //      let found_cumRap = cumRapChieu[j]
+        //      let ds = found_cumRap.danhSachPhim
+        //      for(let k = 1; k< ds.length;k++){
+        //          if(ds[i] = found_phim._id){
+        //              check = 1
+        //          }
+        //      }
+        //      if(!check){
+        //         cumRapChieu.splice(j, 1);
+        //     }
+        //  }
+    
       
     // .heThongRapChieu.populate('cumRapChieu')
     // .CumRapChieu.populate('lichChieuPhim')
-    .then(content =>{
+    // .then(content =>{
         // let heThongRapChieu = result.heThongRapChieu
         res.json({
             statusCode : "200",
             message: "Xử lý thành công!",
-            content
+            content:{
+                maPhim: found_phim.maPhim,
+                tenPhim: found_phim.tenPhim,
+                biDanh: found_phim.biDanh,
+                trailer: found_phim.trailer,
+                hinhAnh: found_phim.hinhAnh,
+                moTa: found_phim.moTa,
+                hot: found_phim.hot,
+                dangChieu: found_phim.dangChieu,
+                sapChieu: found_phim.sapChieu,
+                ngayKhoiChieu: found_phim.ngayKhoiChieu,
+                danhGia: found_phim.danhGia,
+                heThongRapChieu
+            }
         })
-    })
-    .catch(error =>{
-        res.json({
-            phimID,
-            message: 'An error occured!',
-            message: 'Cannot show the movie'
-        })
-    })
+    // })
+    // .catch(error =>{
+    //     res.json({
+    //         phimID,
+    //         message: 'An error occured!',
+    //         message: 'Cannot show the movie'
+    //     })
+    // })
 }else{
     let result = await  
     Phim.find()
