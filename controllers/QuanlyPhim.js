@@ -8,8 +8,10 @@ const Banner = require('../models/Banner')
 const multer = require('multer')
 const heThongRapChieu = require('../models/HeThongRapChieu')
 const CumRapChieu = require('../models/CumRapChieu')
+const HinhAnh = require('../models/HinhAnh')
 const upload = multer({dest: 'uploads/'})
 const imageMimeTypes = ['image/png', 'image/jpg'];
+const fs = require("fs");
 
 // function arrayRemove(arr, value) { 
     
@@ -119,14 +121,24 @@ const ThemPhim =(req, res, next) =>{
         dangChieu: req.body.dangChieu,
         hot: req.body.hot
     })
+    // let base64String = req.body.image
+    // let base64 = base64String.split(';base64,').pop();
+    // const buffer = Buffer.from(base64, "base64");
+    // fs.writeFileSync(__dirname + '../uploads','new-path.jpg', buffer);
     // saveImage(phim, req.body.imag)
-    if(req.file){
-        phim.image = req.file.path
-    }
+    // if(req.file){
+    //     phim.hinhAnh = "https://phimapi.herokuapp.com/" + req.file.path
+    // }
     phim.save()
+    let updateData ={
+        maPhim: req.body.maPhim
+    }
+    HinhAnh.findOneAndUpdate({link: req.body.hinhAnh}, {$set: updateData})
+    // let found_hinhanh = HinhAnh.find({link: req.body.hinhAnh})
     .then(response =>{
         res.json({
-            message: 'Store susccessful'
+            message: 'Store susccessful',
+            phim
         })
     })
     .catch(error =>{
@@ -248,8 +260,8 @@ const updateTrailer=(req, res, next) =>{
 
 // delete employee
 const destroy = (req, res, next) =>{
-    let phimID = req.body.phimID
-    Phim.findByIdAndRemove(phimID)
+    let maphim = req.query.maPhim
+    Phim.findOneAndRemove({maPhim: maphim})
     .then(()=>{
         res.json({
             message: 'Delete successful'
@@ -464,11 +476,75 @@ const LayThongTinLichChieu = async (req, res, next) =>{
         })
     })
 }
+}
+
+
+const ThemPhimAdmin =(req, res, next) =>{
+    let phim = new Phim({
+        maPhim: req.body.maPhim,
+        tenPhim: req.body.tenPhim,
+        moTa: req.body.moTa,
+        trailer: req.body.trailer,
+        hinhAnh: req.body.hinhAnh,
+        biDanh: req.body.biDanh,
+        maNhom: req.body.maNhom,
+        ngayKhoiChieu: req.body.ngayKhoiChieu,
+        danhGia: req.body.danhGia,
+        sapChieu: req.body.sapChieu,
+        dangChieu: req.body.dangChieu,
+        hot: req.body.hot
+    })
+    // saveImage(phim, req.body.imag)
+    if(req.file){
+        phim.image = req.file.path
     }
+    phim.save()
+    .then(response =>{
+        res.json({
+            message: 'Store susccessful'
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!',
+            message: 'Cannot store the movie'
+        })
+    })
+}
+
+const ThemAnh =(req, res, next) =>{
+    if(req.file){
+        link_anh = "https://phimapi.herokuapp.com/" + req.file.path
+    }
+    let hinhanh = new HinhAnh({
+        link: link_anh
+    })
+    hinhanh.save()
+        res.json({
+            link_anh
+        })
+    
+}
+
+const LayDsAnh =(req, res, next) =>{
+    HinhAnh.find()
+    .then(content =>{
+        res.json({
+            content
+        })
+    })
+    .catch(error =>{
+        res.json({
+            message: 'An error occured!'
+        })
+    })
+    
+}
     
 
 module.exports = {
     LayDanhSachPhim, LayThongTinPhim, LayThongTinPhimBangTen, ThemPhim, update, destroy, updateHinh, updateTrailer, LayThongTinPhimTheoNgay, 
     LayDanhSachBanner, ThemBanner, ThemLichChieuVaoPhim,
-    ThemLichChieu, LayThongTinLichChieu
+    ThemLichChieu, LayThongTinLichChieu,
+    ThemAnh, LayDsAnh
 }

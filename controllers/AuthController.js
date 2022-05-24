@@ -79,6 +79,7 @@ const login = (req,res,next)=>{
                             email: user.email,
                             soDT: user.soDT,
                             maNhom: user.maNhom,
+                            admin: user.admin,
                             accessToken
                         }
                     })
@@ -155,6 +156,7 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
             hoTen: found_user.hoTen,
             email: found_user.email,
             soDT: found_user.soDT,
+            admin: found_user.admin,
             maNhom: found_user.maNhom,
             thongTinDatVe
             // Ve
@@ -163,6 +165,11 @@ const ThongTinTaiKhoan = async (req,res,next) =>{
     })
 
 
+
+}
+
+
+const checkadmin = async (req,res,next) =>{
 
 }
 

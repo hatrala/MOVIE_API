@@ -1,8 +1,12 @@
 const path = require('path') 
 const multer = require('multer')
+const fs = require("fs");
+
+// const buffer = Buffer.from(hinhAnh, "hinhAnh");
+//    file =   fs.writeFileSync("image", buffer);
 
 var storage = multer.diskStorage({
-    destination: function(rq,file,cb){
+    destination: function(req,file,cb){
         cb(null, 'uploads/')
     },
     filename: function(req,file,cb) {
@@ -12,6 +16,7 @@ var storage = multer.diskStorage({
 })
 
 var upload = multer({
+
     storage: storage,
     fileFilter: function(req, file, callback) {
         if(
@@ -26,7 +31,7 @@ var upload = multer({
         }
     },
     limits: {
-        fileSize: 1024 * 1024 * 4
+        fileSize: 1024 * 1024 * 10
     }
 })
 
